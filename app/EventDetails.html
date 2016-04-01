@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
 </head>
-<body>
+<body ng-cloak>
 <div class="container">
     <div class="navbar">
         <div class="navbar-inner">
@@ -15,10 +15,11 @@
         </div>
     </div>
     <div ng-controller="EventController">
+        {{myvar}}
         <img ng-src="{{event.imageUrl}}" alt="{{event.name}}" style="padding-left: 20px; padding-right: 20px"/>
         <div class="row">
             <div class="span11">
-                <h2>{{event.name}} </h2>
+                <h2>{{event.name | uppercase}} </h2>
             </div>
         </div>
         <div class="row">
@@ -38,8 +39,21 @@
         <hr />
 
         <h3>Sessions</h3>
+        Order By:
+        <select ng-model="sortOrder" class="input-small">
+            <option selected value="name">Name Asc</option>
+            <option value="-name">Name Desc</option>
+            <option value="-upVoteCount">Votes Desc</option>
+            <option value="upVoteCount">Votes Asc</option>
+        </select>
+        <select ng-model="query.level" class="input-medium">
+            <option selected value="">All</option>
+            <option selected value="introductory">Introductory</option>
+            <option selected value="Intermediate">Intermediate</option>
+            <option selected value="advanced">Advanced</option>
+        </select>
         <ul class="thumbnails">
-            <li ng-repeat="session in event.sessions">
+            <li ng-repeat="session in event.sessions | filter:query | orderBy:sortOrder | limitTo:2">
                 <div class="row session">
                     <div class="span0 well votingWidget">
                         <div class="votingButton" ng-click="upVoteSession(session)">

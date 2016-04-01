@@ -3,6 +3,7 @@
 eventsApp.controller('EventController',
     function EventController($scope){
 
+        $scope.sortOrder = 'name';
         $scope.event = {
             name: 'Angular Boot Camp',
             date: '1/1/2013',

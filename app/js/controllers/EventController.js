@@ -1,14 +1,14 @@
 'use strict';
 
 eventsApp.controller('EventController',
-    function EventController($scope, eventData, $log){
+    function EventController($scope, eventData){
 
         $scope.sortOrder = 'name';
-        eventData.getEvent().success(function(data, status, headers, config) {
-            $scope.event = data;
-        }).error( function (data, status, headers, config) {
-            $log.warn(data, status, headers, config);
-        });
+        $scope.event = eventData.getEvent()
+            .$promise
+            .then(function(event) { $scope.event = event; })
+            .catch(function(response) { console.log(response); }
+        );
 
         $scope.upVoteSession = function (session) {
             session.upVoteCount++;
